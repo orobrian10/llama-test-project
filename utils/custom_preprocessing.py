@@ -41,7 +41,7 @@ def chat(input_message, model_name):
     model, tokenizer = load_model(model_name)
 
     messages = [
-        {"role": "system", "content": "You are a math teacher"},
+        {"role": "system", "content": "I'm solving an algebra problem. Calculate the following expression:"},
         {"role": "user", "content": input_message},
     ]
 
