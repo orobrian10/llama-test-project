@@ -27,13 +27,16 @@ def load_model(model_name):
 
     if tokenizer.pad_token_id is None:
         tokenizer.pad_token_id = tokenizer.eos_token_id
-
+        
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Using device: {device}")
+    
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         config=config,
-        torch_dtype=torch.bfloat16,
-        device_map="auto",
-    )
+        torch_dtype=torch.bfloat16 if device.type == "cuda" else torch.float32,
+        device_map="auto" if device.type == "cuda" else None,
+    ).to(device)
 
     return model, tokenizer
 
